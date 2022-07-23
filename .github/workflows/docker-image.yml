@@ -1,0 +1,92 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  Udagram-User:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: ./udagram-api-user
+        file: ./udagram-api-user/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_USER}}/udagram-api-user:user-v2
+
+  Udagram-Feed:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: ./udagram-api-feed
+        file: ./udagram-api-feed/Dockerfile
+        push: true
+        build-args: |
+          URL=http://localhost:8100
+        tags: ${{ secrets.DOCKER_USER}}/udagram-api-feed:feed-v2
+
+  Udagram-Frontend:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: ./udagram-frontend
+        file: ./udagram-frontend/Dockerfile
+        push: true
+        build-args: |
+          URL=http://localhost:8100
+        tags: ${{ secrets.DOCKER_USER}}/udagram-frontend:frontend-v2
+
+  Udagram-Reverseproxy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: ./udagram-reverseproxy
+        file: ./udagram-reverseproxy/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_USER}}/reverseproxy:reverseproxy-v2
