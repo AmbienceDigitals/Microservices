@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
         - name: reverseproxy
-          image: ambience/reverseproxy:reverseproxy-arg
+          image: ambience/reverseproxy:reverseproxy-v2
           resources:
             requests:
-              cpu: "250m"
+              cpu: "200m"
             limits:
               cpu: "500m"
           ports:

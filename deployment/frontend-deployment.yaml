@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
         - name: udagram-frontend
-          image: ambience/udagram-frontend:frontend-arg
+          image: ambience/udagram-frontend:frontend-v2
           resources:
             requests:
-              cpu: "250m"
+              cpu: "200m"
             limits:
               cpu: "500m"
           ports:

@@ -16,11 +16,11 @@ spec:
     spec:
       containers:
         - name: udagram-api-feed
-          image: ambience/udagram-api-feed:feed-modified
+          image: ambience/udagram-api-feed:feed-v2
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: "250m"
+              cpu: "200m"
             limits:
               cpu: "500m"
           ports:
@@ -71,18 +71,3 @@ spec:
                 secretKeyRef:
                   name: env-secret
                   key: POSTGRES_USERNAME
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: aws-secret
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: aws-secret
-                  key: AWS_SECRET_ACCESS_KEY
-            - name: AWS_SESSION_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: aws-secret
-                  key: AWS_SESSION_TOKEN
